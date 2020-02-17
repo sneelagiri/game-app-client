@@ -4,11 +4,11 @@ const LobbyForm = props => {
   // console.log(props);
   return (
     <div>
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={props.onSubmit}>
         <label>
           Email:
           <input
-            onChange={props.handleChange}
+            onChange={props.onChange}
             type="text"
             name="lobbyName"
             value={props.values.name}

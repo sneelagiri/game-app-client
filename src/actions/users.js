@@ -23,7 +23,6 @@ export function signUp(firstName, lastName, playerName, email, password) {
     }
   };
 }
-
 function loginSuccess(token) {
   return {
     type: LOGIN_SUCCESS,

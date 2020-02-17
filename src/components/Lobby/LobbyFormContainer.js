@@ -1,6 +1,9 @@
 import React from "react";
-import axios from "axios";
 import LobbyForm from "./LobbyForm";
+import { createLobby } from "../../actions/lobby";
+
+const url =
+  "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
 
 class LobbyFormContainer extends React.Component {
   state = {
@@ -10,7 +13,6 @@ class LobbyFormContainer extends React.Component {
     }
   };
 
-  url = "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
   stream = new EventSource(`${url}/stream`);
 
   handleChange = event => {
@@ -21,7 +23,7 @@ class LobbyFormContainer extends React.Component {
     event.preventDefault();
     console.log(this.state);
     console.log("WHAT IS THIS PROPS DISPATCH", this.props.dispatch);
-    this.props.dispatch(lobbyRegistration(this.state.lobby.name));
+    this.props.dispatch(createLobby(this.state.lobby.name));
     this.setState({
       lobby: { name: "" }
     });
@@ -75,14 +77,14 @@ class LobbyFormContainer extends React.Component {
       <div>
         <LobbyForm
           text="lobbyName"
-          onSubmit={this.onSubmit}
-          onChange={this.onChange}
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}
           values={this.state.lobby}
         />
 
         {buttons}
 
-        {paragraphs}
+        {players}
       </div>
     );
   }
