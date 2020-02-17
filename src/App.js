@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import SignUpContainer from "./components/SignUp/SignUpContainer";
 import LoginContainer from "./components/Login/LoginContainer";
+import LobbyFormContainer from "./components/Lobby/LobbyFormContainer";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
 
           <Route exact path="/signup" component={SignUpContainer} />
           <Route exact path="/login" component={LoginContainer} />
+          <Route exact path="/lobby" component={LobbyFormContainer} />
         </Router>
       </header>
     </div>

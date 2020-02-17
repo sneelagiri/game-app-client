@@ -77,8 +77,8 @@ class LobbyFormContainer extends React.Component {
       <div>
         <LobbyForm
           text="lobbyName"
-          onSubmit={this.handleSubmit}
-          onChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
           values={this.state.lobby}
         />
 

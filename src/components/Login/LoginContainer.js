@@ -37,9 +37,7 @@ class LoginContainer extends Component {
         {this.props.userLoggedIn ? (
           <div>
             <h1>You are logged in</h1>
-            <Link to="/lobby" component={LobbyFormContainer}>
-              Enter Game Lobby
-            </Link>
+            <Link to="/lobby">Enter Game Lobby</Link>
           </div>
         ) : (
           <LoginForm
