@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import LoginForm from "./LoginForm";
 import { login } from "../../actions/users";
 import { connect } from "react-redux";
-
+import { Link } from "react-router-dom";
 class LoginContainer extends Component {
   state = {
     email: "",
@@ -34,7 +34,10 @@ class LoginContainer extends Component {
     return (
       <div>
         {this.props.userLoggedIn ? (
-          <h1>You are logged in</h1>
+          <div>
+            <h1>You are logged in</h1>
+            <Link to="/lobby">Enter Game Lobby</Link>
+          </div>
         ) : (
           <LoginForm
             text="Login"
