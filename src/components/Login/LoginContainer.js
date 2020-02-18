@@ -16,8 +16,8 @@ class LoginContainer extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
-    console.log("WHAT IS THIS PROPS DISPATCH", this.props.dispatch);
+    // console.log(this.state);
+    // console.log("WHAT IS THIS PROPS DISPATCH", this.props.dispatch);
     this.props.dispatch(login(this.state.email, this.state.password));
     this.setState({
       email: "",
@@ -25,11 +25,11 @@ class LoginContainer extends Component {
     });
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.userLoggedIn !== this.props.userLoggedIn) {
-      setTimeout(() => this.props.history.push("/"), 1500);
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.userLoggedIn !== this.props.userLoggedIn) {
+  //     setTimeout(() => this.props.history.push("/"), 1500);
+  //   }
+  // }
 
   render() {
     return (
@@ -37,7 +37,7 @@ class LoginContainer extends Component {
         {this.props.userLoggedIn ? (
           <div>
             <h1>You are logged in</h1>
-            <Link to="/lobby">Enter Game Lobby</Link>
+            <LobbyFormContainer />
           </div>
         ) : (
           <LoginForm

@@ -6,11 +6,11 @@ const LobbyForm = props => {
     <div>
       <form onSubmit={props.handleSubmit}>
         <label>
-          Email:
+          Lobby Name:
           <input
             onChange={props.handleChange}
             type="text"
-            name="lobbyName"
+            name="name"
             value={props.values.name}
           />
         </label>

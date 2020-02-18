@@ -2,8 +2,9 @@ import axios from "axios";
 
 export const USER_CREATED = "USER_CREATED";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-const databaseUrl =
-  "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
+const databaseUrl = "http://localhost:4000";
+// const databaseUrl =
+//   "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
 function signUpSuccess() {
   return { type: USER_CREATED };
 }
@@ -37,7 +38,7 @@ export function login(email, password) {
       email,
       password
     });
-
-    dispatch(loginSuccess(response.data.token));
+    console.log(response);
+    dispatch(loginSuccess(response.data.jwt));
   };
 }

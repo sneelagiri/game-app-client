@@ -1,9 +1,11 @@
 import React from "react";
 import LobbyForm from "./LobbyForm";
 import { createLobby } from "../../actions/lobby";
-
-const url =
-  "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+const url = "http://localhost:4000";
+// const url =
+//   "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
 
 class LobbyFormContainer extends React.Component {
   state = {
@@ -16,7 +18,7 @@ class LobbyFormContainer extends React.Component {
   stream = new EventSource(`${url}/stream`);
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ lobby: { [event.target.name]: event.target.value } });
   };
 
   handleSubmit = event => {
@@ -29,22 +31,23 @@ class LobbyFormContainer extends React.Component {
     });
   };
 
+  // joinSubmit = event => {
+  //   event.preventDefault();
+  //   this.props.dispatch(joinLobby());
+  // };
+
   componentDidMount() {
+    console.log(this.stream);
     this.stream.onmessage = event => {
       const { data } = event;
-
       const action = JSON.parse(data);
       console.log("action test:", action);
-
       const { type, payload } = action;
-
       if (type === "ALL_LOBBIES") {
         this.setState({ lobbies: payload });
       }
-
       if (type === "ONE_LOBBY") {
         const lobbies = [...this.state.lobbies, payload];
-
         this.setState({ lobbies });
       }
     };
@@ -69,25 +72,37 @@ class LobbyFormContainer extends React.Component {
       lobby => lobby.name === this.state.lobby
     );
 
-    const players = lobby
+    const lobbies = lobby
       ? lobby.users.map(user => <p key={user.id}>{user.name}</p>)
       : null;
 
     return (
       <div>
         <LobbyForm
-          text="lobbyName"
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
           values={this.state.lobby}
         />
 
-        {buttons}
-
-        {players}
+        {this.state.lobbies.map(lobby => {
+          return (
+            <div key={lobby.name}>
+              <h2>Lobby Name: {lobby.name}</h2>
+              <button>
+                <Link to={`/lobby/${lobby.name}`}>Join Lobby</Link>
+              </button>
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
+/* {buttons}
+ */
+function mapStateToProps(state) {
+  console.log("redux state on lobby form page", state);
+  return { users: state };
+}
 
-export default LobbyFormContainer;
+export default connect(mapStateToProps)(LobbyFormContainer);
