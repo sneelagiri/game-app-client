@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import LoginForm from "./LoginForm";
 import { login } from "../../actions/users";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import LobbyFormContainer from "../Lobby/LobbyFormContainer";
 class LoginContainer extends Component {
   state = {
@@ -18,7 +18,10 @@ class LoginContainer extends Component {
     event.preventDefault();
     // console.log(this.state);
     // console.log("WHAT IS THIS PROPS DISPATCH", this.props.dispatch);
-    this.props.dispatch(login(this.state.email, this.state.password));
+    // console.log(this.props.currentUserId);
+    this.props.dispatch(
+      login(this.state.email, this.state.password, this.props.currentUserId)
+    );
     this.setState({
       email: "",
       password: ""
@@ -54,7 +57,8 @@ class LoginContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    userLoggedIn: state.user.token !== null
+    userLoggedIn: state.user.token !== null,
+    currentUserId: state.user
   };
 };
 

@@ -24,21 +24,34 @@ export function signUp(firstName, lastName, playerName, email, password) {
     }
   };
 }
-function loginSuccess(token) {
+function loginSuccess(token, userId) {
+  // console.log("is this an id? 2", userId);
   return {
     type: LOGIN_SUCCESS,
-    payload: { token: token }
+    payload: { token: token, currentUserId: userId }
   };
 }
 
 export function login(email, password) {
   return async function(dispatch, getState) {
-    console.log(email, password);
+    // console.log(email, password);
     const response = await axios.post(`${databaseUrl}/login`, {
       email,
       password
     });
-    console.log(response);
-    dispatch(loginSuccess(response.data.jwt));
+    // console.log("this should contain an id", response);
+    dispatch(loginSuccess(response.data.jwt, response.data.userId));
+  };
+}
+
+function updateUserSuccessful(object) {
+  return {
+    type: "UPDATE_USER",
+    payload: object
+  };
+}
+export function updateUser(object) {
+  return async function(dispatch, getState) {
+    dispatch(updateUserSuccessful(object));
   };
 }

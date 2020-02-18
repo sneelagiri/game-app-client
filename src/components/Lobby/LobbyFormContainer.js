@@ -1,6 +1,7 @@
 import React from "react";
 import LobbyForm from "./LobbyForm";
-import { createLobby } from "../../actions/lobby";
+import { createLobby, joinLobby, fetchLobbies } from "../../actions/lobby";
+import { updateUser } from "../../actions/users";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 const url = "http://localhost:4000";
@@ -12,7 +13,8 @@ class LobbyFormContainer extends React.Component {
     lobbies: [],
     lobby: {
       name: ""
-    }
+    },
+    updatedLobby: []
   };
 
   stream = new EventSource(`${url}/stream`);
@@ -31,24 +33,24 @@ class LobbyFormContainer extends React.Component {
     });
   };
 
-  // joinSubmit = event => {
-  //   event.preventDefault();
-  //   this.props.dispatch(joinLobby());
-  // };
+  lobbiesGlobal = array => {
+    this.props.dispatch(fetchLobbies(array));
+  };
 
   componentDidMount() {
-    console.log(this.stream);
     this.stream.onmessage = event => {
       const { data } = event;
       const action = JSON.parse(data);
-      console.log("action test:", action);
+      // console.log("action test:", action);
       const { type, payload } = action;
       if (type === "ALL_LOBBIES") {
-        this.setState({ lobbies: payload });
+        // this.setState({ lobbies: payload });
+        this.lobbiesGlobal(payload);
       }
       if (type === "ONE_LOBBY") {
-        const lobbies = [...this.state.lobbies, payload];
-        this.setState({ lobbies });
+        const lobbies = [...this.props.lobbies, payload];
+        // this.setState({ lobbies });
+        this.lobbiesGlobal(lobbies);
       }
     };
   }
@@ -61,20 +63,21 @@ class LobbyFormContainer extends React.Component {
   };
 
   render() {
-    console.log("render state test:", this.state);
-    const buttons = this.state.lobbies.map(lobby => (
-      <button key={lobby.id} onClick={() => this.pick(lobby.name, lobby.id)}>
-        {lobby.name}
-      </button>
-    ));
+    // console.log("how many times is stream being called?", this.stream);
+    // console.log("render state test:", this.state);
+    // const buttons = this.state.lobbies.map(lobby => (
+    //   <button key={lobby.id} onClick={() => this.pick(lobby.name, lobby.id)}>
+    //     {lobby.name}
+    //   </button>
+    // ));
 
-    const lobby = this.state.lobbies.find(
-      lobby => lobby.name === this.state.lobby
-    );
+    // const lobby = this.state.lobbies.find(
+    //   lobby => lobby.name === this.state.lobby
+    // );
 
-    const lobbies = lobby
-      ? lobby.users.map(user => <p key={user.id}>{user.name}</p>)
-      : null;
+    // const lobbies = lobby
+    //   ? lobby.users.map(user => <p key={user.id}>{user.name}</p>)
+    //   : null;
 
     return (
       <div>
@@ -84,12 +87,16 @@ class LobbyFormContainer extends React.Component {
           values={this.state.lobby}
         />
 
-        {this.state.lobbies.map(lobby => {
+        {this.props.lobbies.map(lobby => {
           return (
             <div key={lobby.name}>
               <h2>Lobby Name: {lobby.name}</h2>
-              <button>
-                <Link to={`/lobby/${lobby.name}`}>Join Lobby</Link>
+              <button
+                onClick={() => {
+                  this.props.dispatch(joinLobby(this.props.userId, lobby.id));
+                }}
+              >
+                <Link to={`/lobby/${lobby.id}`}>Join Lobby</Link>
               </button>
             </div>
           );
@@ -101,8 +108,8 @@ class LobbyFormContainer extends React.Component {
 /* {buttons}
  */
 function mapStateToProps(state) {
-  console.log("redux state on lobby form page", state);
-  return { users: state };
+  // console.log("redux state on lobby form page", state);
+  return { userId: state.user.currentUserId, lobbies: state.lobby };
 }
 
 export default connect(mapStateToProps)(LobbyFormContainer);

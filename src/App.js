@@ -22,7 +22,7 @@ function App() {
             <Route exact path="/signup" component={SignUpContainer} />
             <Route exact path="/login" component={LoginContainer} />
             <Route exact path="/lobby" component={LobbyFormContainer} />
-            <Route exact path="/lobby/:name" component={GameRoom} />
+            <Route exact path="/lobby/:id" component={GameRoom} />
           </Switch>
         </Router>
       </header>

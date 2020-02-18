@@ -5,17 +5,21 @@ export const LOBBY_CREATED = "LOBBY_CREATED";
 const databaseUrl = "http://localhost:4000";
 
 //  "https://neelagiri-kuong-game.herokuapp.com" ||
-// function createLobbySuccess() {
-//   return {
-//     type: LOBBY_CREATED,
-
-//   };
-// }
+function createLobbySuccess(response) {
+  return {
+    type: LOBBY_CREATED,
+    payload: {
+      id: response.data.id,
+      name: response.data.name
+    }
+  };
+}
 
 export function createLobby(name) {
   return async function(dispatch, getState) {
+    // console.log(getState());
     const token = getState().user.token;
-    console.log("Token", token);
+    // console.log("Token", token);
 
     const response = await axios({
       method: "POST",
@@ -27,21 +31,22 @@ export function createLobby(name) {
         name
       }
     });
-    console.log(response);
+    // console.log(response);
 
-    // if (response.status === 201) {
-    //   dispatch(createLobbySuccess(name));
-    // }
+    if (response.status === 200) {
+      dispatch(createLobbySuccess(response));
+    }
   };
 }
 
 export function joinLobby(userId, lobbyId) {
+  // console.log("User ID:", userId, "Lobby ID:", lobbyId);
   return async function(dispatch, getState) {
     const token = getState().user.token;
-    console.log("Token", token);
+    // console.log("Token", token);
 
     const response = await axios({
-      method: "POST",
+      method: "PUT",
       url: `${databaseUrl}/user/${userId}`,
       headers: {
         authorization: `Bearer ${token}`
@@ -50,5 +55,19 @@ export function joinLobby(userId, lobbyId) {
         lobbyId: lobbyId
       }
     });
+    // console.log("join lobby response", response);
+  };
+}
+
+function fetchLobbiesSuccess(array) {
+  return {
+    type: "ALL_LOBBIES",
+    payload: array
+  };
+}
+
+export function fetchLobbies(array) {
+  return async function(dispatch, getState) {
+    dispatch(fetchLobbiesSuccess(array));
   };
 }
