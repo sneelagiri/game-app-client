@@ -7,26 +7,36 @@ import LobbyContainer from "./components/Lobby/LobbyContainer";
 import GameRoom from "./components/GameRoom";
 import Home from "./components/Home";
 import Nav from "react-bootstrap/Nav";
+import { LinkContainer } from "react-router-bootstrap";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Nav variant="pills">
-          <Nav.Item>
-            <Nav.Link href="/">Home</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/signup">Sign Up</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/login">Log In</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/lobby">Game Lobby</Nav.Link>
-          </Nav.Item>
-        </Nav>
         <Router>
+          <Nav variant="pills">
+            <Nav.Item>
+              <Nav.Link as={Link} to="/">
+                Home
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to="/signup">
+                Sign Up
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to="/login">
+                Log In
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to="/lobby">
+                Game Lobby
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+
           <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/signup" component={SignUpContainer} />

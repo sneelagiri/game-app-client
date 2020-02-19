@@ -3,6 +3,7 @@ import LobbyForm from "./LobbyForm";
 import { createLobby, joinLobby, fetchLobbies } from "../../actions/lobby";
 // import { updateUser } from "../../actions/users";
 import { connect } from "react-redux";
+import "./Lobby.css";
 
 import DisplayLobby from "./DisplayLobby";
 const url = "http://localhost:4000";
@@ -64,6 +65,7 @@ class LobbyContainer extends React.Component {
           handleChange={this.handleChange}
           values={this.state.lobby}
         />
+        <br />
 
         {this.props.lobbies.map(lobby => {
           return <DisplayLobby lobbyData={lobby} userId={this.props.userId} />;
