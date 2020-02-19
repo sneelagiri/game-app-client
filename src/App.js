@@ -8,6 +8,7 @@ import GameRoom from "./components/GameRoom";
 import Home from "./components/Home";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
+import QuizGameContainer from "./components/Game/QuizGameContainer";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route exact path="/login" component={LoginContainer} />
             <Route exact path="/lobby" component={LobbyContainer} />
             <Route exact path="/lobby/:id" component={GameRoom} />
+            <Route exact path="/game/:id" component={QuizGameContainer} />
           </Switch>
         </Router>
       </header>
