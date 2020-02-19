@@ -53,6 +53,7 @@ class SignupFormContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log("testing git");
   console.log("STATE IN MSTP", state);
   return {
     userCreated: state.user.userCreated
