@@ -1,7 +1,7 @@
 import React from "react";
 import LobbyForm from "./LobbyForm";
 import { createLobby, joinLobby, fetchLobbies } from "../../actions/lobby";
-import { updateUser } from "../../actions/users";
+// import { updateUser } from "../../actions/users";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 const url = "http://localhost:4000";
@@ -91,12 +91,15 @@ class LobbyFormContainer extends React.Component {
           return (
             <div key={lobby.name}>
               <h2>Lobby Name: {lobby.name}</h2>
-              <button
-                onClick={() => {
-                  this.props.dispatch(joinLobby(this.props.userId, lobby.id));
-                }}
-              >
-                <Link to={`/lobby/${lobby.id}`}>Join Lobby</Link>
+              <button>
+                <Link
+                  to={`/lobby/${lobby.id}`}
+                  onClick={() => {
+                    this.props.dispatch(joinLobby(this.props.userId, lobby.id));
+                  }}
+                >
+                  Join Lobby
+                </Link>
               </button>
             </div>
           );

@@ -23,6 +23,8 @@ class GameRoom extends React.Component {
                 return lobby.users.map(user => {
                   return <h3>{user.playerName}</h3>;
                 });
+              } else {
+                return null;
               }
             })}
           </div>
