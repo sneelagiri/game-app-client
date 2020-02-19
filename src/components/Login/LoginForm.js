@@ -15,16 +15,13 @@ const LoginForm = props => {
           value={props.values.email}
           placeholder="Enter email"
         />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
       </Form.Group>
 
       <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           onChange={props.handleChange}
-          type="text"
+          type="password"
           name="password"
           value={props.values.password}
           placeholder="Password"

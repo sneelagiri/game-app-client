@@ -54,7 +54,7 @@ const SignUpForm = props => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           onChange={props.handleChange}
-          type="text"
+          type="password"
           name="password"
           value={props.values.password}
           placeholder="Password"

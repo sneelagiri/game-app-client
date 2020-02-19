@@ -3,7 +3,7 @@ import LoginForm from "./LoginForm";
 import { login } from "../../actions/users";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
-import LobbyFormContainer from "../Lobby/LobbyFormContainer";
+import LobbyContainer from "../Lobby/LobbyContainer";
 class LoginContainer extends Component {
   state = {
     email: "",
@@ -40,7 +40,7 @@ class LoginContainer extends Component {
         {this.props.userLoggedIn ? (
           <div>
             <h1>You are logged in</h1>
-            <LobbyFormContainer />
+            <LobbyContainer />
           </div>
         ) : (
           <LoginForm

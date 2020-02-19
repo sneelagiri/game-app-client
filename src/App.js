@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import SignUpContainer from "./components/SignUp/SignUpContainer";
 import LoginContainer from "./components/Login/LoginContainer";
-import LobbyFormContainer from "./components/Lobby/LobbyFormContainer";
+import LobbyContainer from "./components/Lobby/LobbyContainer";
 import GameRoom from "./components/GameRoom";
 import Home from "./components/Home";
 import Nav from "react-bootstrap/Nav";
@@ -22,13 +22,16 @@ function App() {
           <Nav.Item>
             <Nav.Link href="/login">Log In</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/lobby">Game Lobby</Nav.Link>
+          </Nav.Item>
         </Nav>
         <Router>
           <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/signup" component={SignUpContainer} />
             <Route exact path="/login" component={LoginContainer} />
-            <Route exact path="/lobby" component={LobbyFormContainer} />
+            <Route exact path="/lobby" component={LobbyContainer} />
             <Route exact path="/lobby/:id" component={GameRoom} />
           </Switch>
         </Router>

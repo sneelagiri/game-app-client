@@ -3,12 +3,13 @@ import LobbyForm from "./LobbyForm";
 import { createLobby, joinLobby, fetchLobbies } from "../../actions/lobby";
 // import { updateUser } from "../../actions/users";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+
+import DisplayLobby from "./DisplayLobby";
 const url = "http://localhost:4000";
 // const url =
 //   "https://neelagiri-kuong-game.herokuapp.com" || "http://localhost:4000";
 
-class LobbyFormContainer extends React.Component {
+class LobbyContainer extends React.Component {
   state = {
     lobbies: [],
     lobby: {
@@ -65,24 +66,7 @@ class LobbyFormContainer extends React.Component {
         />
 
         {this.props.lobbies.map(lobby => {
-          return (
-            <div key={lobby.name}>
-              <h2>Room: {lobby.name}</h2>
-              <h3>Number of Players: {lobby.users.length}</h3>
-              <Link
-                to={`/lobby/${lobby.id}`}
-                onClick={() => {
-                  this.props.dispatch(joinLobby(this.props.userId, lobby.id));
-                }}
-              >
-                {lobby.users.length >= 3 ? (
-                  <button disabled>Join Room</button>
-                ) : (
-                  <button>Join Room</button>
-                )}
-              </Link>
-            </div>
-          );
+          return <DisplayLobby lobbyData={lobby} userId={this.props.userId} />;
         })}
       </div>
     );
@@ -92,4 +76,4 @@ function mapStateToProps(state) {
   return { userId: state.user.currentUserId, lobbies: state.lobby };
 }
 
-export default connect(mapStateToProps)(LobbyFormContainer);
+export default connect(mapStateToProps)(LobbyContainer);
