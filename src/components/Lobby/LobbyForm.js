@@ -6,7 +6,7 @@ const LobbyForm = props => {
     <div>
       <form onSubmit={props.handleSubmit}>
         <label>
-          Lobby Name:
+          Room Name:
           <input
             onChange={props.handleChange}
             type="text"
