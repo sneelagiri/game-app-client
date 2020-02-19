@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import LoginForm from "./LoginForm";
+import { BrowserRouter, Route } from "react-router-dom";
+import PropTypes from "prop-types";
 import { login } from "../../actions/users";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
@@ -40,7 +42,7 @@ class LoginContainer extends Component {
         {this.props.userLoggedIn ? (
           <div>
             <h1>You are logged in</h1>
-            <LobbyContainer />
+            {this.props.history.push("/lobby")}
           </div>
         ) : (
           <LoginForm
