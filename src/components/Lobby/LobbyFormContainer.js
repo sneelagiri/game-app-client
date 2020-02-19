@@ -55,30 +55,7 @@ class LobbyFormContainer extends React.Component {
     };
   }
 
-  pick = (name, id) => {
-    this.setState({
-      lobby: name,
-      lobbyId: id
-    });
-  };
-
   render() {
-    // console.log("how many times is stream being called?", this.stream);
-    // console.log("render state test:", this.state);
-    // const buttons = this.state.lobbies.map(lobby => (
-    //   <button key={lobby.id} onClick={() => this.pick(lobby.name, lobby.id)}>
-    //     {lobby.name}
-    //   </button>
-    // ));
-
-    // const lobby = this.state.lobbies.find(
-    //   lobby => lobby.name === this.state.lobby
-    // );
-
-    // const lobbies = lobby
-    //   ? lobby.users.map(user => <p key={user.id}>{user.name}</p>)
-    //   : null;
-
     return (
       <div>
         <LobbyForm
@@ -90,17 +67,20 @@ class LobbyFormContainer extends React.Component {
         {this.props.lobbies.map(lobby => {
           return (
             <div key={lobby.name}>
-              <h2>Lobby Name: {lobby.name}</h2>
-              <button>
-                <Link
-                  to={`/lobby/${lobby.id}`}
-                  onClick={() => {
-                    this.props.dispatch(joinLobby(this.props.userId, lobby.id));
-                  }}
-                >
-                  Join Lobby
-                </Link>
-              </button>
+              <h2>Room: {lobby.name}</h2>
+              <h3>Number of Players: {lobby.users.length}</h3>
+              <Link
+                to={`/lobby/${lobby.id}`}
+                onClick={() => {
+                  this.props.dispatch(joinLobby(this.props.userId, lobby.id));
+                }}
+              >
+                {lobby.users.length >= 3 ? (
+                  <button disabled>Join Room</button>
+                ) : (
+                  <button>Join Room</button>
+                )}
+              </Link>
             </div>
           );
         })}
@@ -108,10 +88,7 @@ class LobbyFormContainer extends React.Component {
     );
   }
 }
-/* {buttons}
- */
 function mapStateToProps(state) {
-  // console.log("redux state on lobby form page", state);
   return { userId: state.user.currentUserId, lobbies: state.lobby };
 }
 
