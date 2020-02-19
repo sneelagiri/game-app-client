@@ -45,7 +45,7 @@ export function joinLobby(userId, lobbyId) {
     const token = getState().user.token;
     // console.log("Token", token);
 
-    const response = await axios({
+    await axios({
       method: "PUT",
       url: `${databaseUrl}/user/${userId}`,
       headers: {
