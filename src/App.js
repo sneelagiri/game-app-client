@@ -7,7 +7,6 @@ import LobbyContainer from "./components/Lobby/LobbyContainer";
 import GameRoom from "./components/GameRoom";
 import Home from "./components/Home";
 import Nav from "react-bootstrap/Nav";
-import { LinkContainer } from "react-router-bootstrap";
 import QuizGameContainer from "./components/Game/QuizGameContainer";
 
 function App() {

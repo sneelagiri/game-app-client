@@ -18,7 +18,7 @@ class SignupFormContainer extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
     this.props.dispatch(
       signUp(
         this.state.firstName,
@@ -53,8 +53,8 @@ class SignupFormContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("testing git");
-  console.log("STATE IN MSTP", state);
+  // console.log("testing git");
+  // console.log("STATE IN MSTP", state);
   return {
     userCreated: state.user.userCreated
   };

@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 class DisplayLobby extends Component {
   render() {
     const { lobbyData } = this.props;
-    console.log("displayLobby", this.props);
+    // console.log("displayLobby", this.props);
     return (
       <div key={lobbyData.name} className="displayLobby">
         <h2>Room: {lobbyData.name}</h2>

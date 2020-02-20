@@ -21,7 +21,7 @@ class GameRoom extends React.Component {
       }
     });
     const noPlayersExist = thisLobby.length > 0 ? false : true;
-    console.log(thisLobby, noPlayersExist);
+    // console.log(thisLobby, noPlayersExist);
     return (
       <div>
         <h1>Game Room</h1>

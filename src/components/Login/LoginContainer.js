@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import LoginForm from "./LoginForm";
-import { BrowserRouter, Route } from "react-router-dom";
-import PropTypes from "prop-types";
+// import { BrowserRouter, Route } from "react-router-dom";
+// import PropTypes from "prop-types";
 import { login } from "../../actions/users";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
-import LobbyContainer from "../Lobby/LobbyContainer";
+// import LobbyContainer from "../Lobby/LobbyContainer";
 class LoginContainer extends Component {
   state = {
     email: "",

@@ -1,6 +1,6 @@
 import React from "react";
 import LobbyForm from "./LobbyForm";
-import { createLobby, joinLobby, fetchLobbies } from "../../actions/lobby";
+import { createLobby, fetchLobbies } from "../../actions/lobby";
 // import { updateUser } from "../../actions/users";
 import { connect } from "react-redux";
 import "./Lobby.css";
@@ -27,8 +27,8 @@ class LobbyContainer extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
-    console.log("WHAT IS THIS PROPS DISPATCH", this.props.dispatch);
+    // console.log(this.state);
+    // console.log("WHAT IS THIS PROPS DISPATCH", this.props.dispatch);
     this.props.dispatch(createLobby(this.state.lobby.name));
     this.setState({
       lobby: { name: "" }

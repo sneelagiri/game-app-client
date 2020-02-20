@@ -8,7 +8,7 @@ export default function Home(props) {
       <img
         className="game-image"
         src="https://pngimage.net/wp-content/uploads/2018/06/game-png-5.png"
-        alt="game-image"
+        alt="game"
       />
     </div>
   );

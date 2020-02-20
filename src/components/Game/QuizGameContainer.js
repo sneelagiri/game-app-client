@@ -19,16 +19,16 @@ class QuizGameContainer extends Component {
     this.stream.onmessage = event => {
       const { data } = event;
       const action = JSON.parse(data);
-      console.log("What is the action?", action);
+      // console.log("What is the action?", action);
     };
     this.questions();
   }
 
   async questions() {
-    const lobbyId = this.props.match.params.id;
+    const lobbyId = parseInt(this.props.match.params.id);
     let numPlayers = 0;
     this.props.lobbies.map(lobby => {
-      if (lobby.id == lobbyId) {
+      if (lobby.id === lobbyId) {
         numPlayers = lobby.users.length;
         return null;
       } else {
@@ -39,19 +39,20 @@ class QuizGameContainer extends Component {
       lobbyId,
       numPlayers
     });
-    console.log("What are the questions?", questions);
+    // console.log("What are the questions?", questions);
+    this.setState({ questions: questions.data });
   }
 
   handleClick = option => {
     this.state.questions.map(question => {
       if (question.correct_answer === option) {
-        this.setState({ points: this.state.points + 10 });
+        return this.setState({ points: this.state.points + 10 });
       }
     });
     if (this.state.currentQuestion < 9) {
       this.setState({ currentQuestion: this.state.currentQuestion + 1 });
     } else {
-      this.setState({ gameover: true, currentQuestion: 0 });
+      this.setState({ gameover: !this.state.gameover, currentQuestion: 0 });
     }
   };
 
@@ -97,7 +98,7 @@ class QuizGameContainer extends Component {
 }
 
 function mapStateToProps(reduxState) {
-  console.log("What is the redux state", reduxState);
+  // console.log("What is the redux state", reduxState);
   return {
     lobbies: reduxState.lobby
   };
