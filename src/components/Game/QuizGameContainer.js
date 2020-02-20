@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Fade from "react-reveal/Fade";
+import GameRoom from "../GameRoom";
 const axios = require("axios");
 const url = "http://localhost:4000";
-export default class QuizGameContainer extends Component {
+class QuizGameContainer extends Component {
   state = {
     username: "",
     points: 0,
@@ -19,7 +21,27 @@ export default class QuizGameContainer extends Component {
       const action = JSON.parse(data);
       console.log("What is the action?", action);
     };
+    this.questions();
   }
+
+  async questions() {
+    const lobbyId = this.props.match.params.id;
+    let numPlayers = 0;
+    this.props.lobbies.map(lobby => {
+      if (lobby.id == lobbyId) {
+        numPlayers = lobby.users.length;
+        return null;
+      } else {
+        return null;
+      }
+    });
+    const questions = await axios.post(`${url}/questions`, {
+      lobbyId,
+      numPlayers
+    });
+    console.log("What are the questions?", questions);
+  }
+
   handleClick = option => {
     this.state.questions.map(question => {
       if (question.correct_answer === option) {
@@ -73,3 +95,12 @@ export default class QuizGameContainer extends Component {
     );
   }
 }
+
+function mapStateToProps(reduxState) {
+  console.log("What is the redux state", reduxState);
+  return {
+    lobbies: reduxState.lobby
+  };
+}
+
+export default connect(mapStateToProps)(QuizGameContainer, GameRoom);

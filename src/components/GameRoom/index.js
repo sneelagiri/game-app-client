@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class GameRoom extends React.Component {
   componentDidMount() {
@@ -48,7 +49,11 @@ class GameRoom extends React.Component {
                 if (lobby.id === parseInt(this.props.match.params.id)) {
                   // console.log(lobby);
                   if (lobby.users.length >= 2 && lobby.users.length < 4) {
-                    return <button>Start Game</button>;
+                    return (
+                      <Link to={`/game/${lobby.id}`}>
+                        <button>Start Game</button>
+                      </Link>
+                    );
                   } else {
                     return <h2>Not enough players to start a game</h2>;
                   }
