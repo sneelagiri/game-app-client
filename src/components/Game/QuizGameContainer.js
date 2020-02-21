@@ -20,11 +20,12 @@ class QuizGameContainer extends Component {
       const { data } = event;
       const action = JSON.parse(data);
       // console.log("What is the action?", action);
+      this.questions(action);
     };
-    this.questions();
   }
 
-  async questions() {
+  async questions(action) {
+    console.log(action);
     const lobbyId = parseInt(this.props.match.params.id);
     let numPlayers = 0;
     this.props.lobbies.map(lobby => {
@@ -35,18 +36,21 @@ class QuizGameContainer extends Component {
         return null;
       }
     });
-    const questions = await axios.post(`${url}/questions`, {
+    await axios.post(`${url}/questions`, {
       lobbyId,
       numPlayers
     });
-    // console.log("What are the questions?", questions);
-    this.setState({ questions: questions.data });
+    // need to check type first
+    // this.setState({questions: action})
   }
 
   handleClick = option => {
     this.state.questions.map(question => {
       if (question.correct_answer === option) {
-        return this.setState({ points: this.state.points + 10 });
+        this.setState({ points: this.state.points + 10 });
+        return question;
+      } else {
+        return question;
       }
     });
     if (this.state.currentQuestion < 9) {
