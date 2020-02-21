@@ -4,9 +4,11 @@ import Fade from "react-reveal/Fade";
 import GameRoom from "../GameRoom";
 const axios = require("axios");
 const url = "http://localhost:4000";
+
 class QuizGameContainer extends Component {
   state = {
     username: "",
+    lobbies: [],
     points: 0,
     questions: [],
     answeredCorrectly: [],
@@ -20,29 +22,37 @@ class QuizGameContainer extends Component {
       const { data } = event;
       const action = JSON.parse(data);
       // console.log("What is the action?", action);
-      this.questions(action);
+      const { type, payload } = action;
+
+      // const readyStatus = () => {
+      //   if (type === "ALL_LOBBIES") {
+      //     const readyStatus = payload.map(lobby => {
+      //       return lobby.users.map(user => {
+      //         if (user.ready) {
+      //           return true;
+      //         } else return false;
+      //       });
+      //     });
+      //     return readyStatus;
+      //   }
+      // };
+      // const booleanArray = readyStatus().flat();
+      // const getQuestions = booleanArray.every(v => v === true);
+      // if (getQuestions) {
+      //   console.log("HOW MANY TIMES AM I BEING CALLED?");
+      //   this.questions();
+      // } else {
+      //   return console.log("Didn't work");
+      // }
     };
   }
 
-  async questions(action) {
-    console.log(action);
-    const lobbyId = parseInt(this.props.match.params.id);
-    let numPlayers = 0;
-    this.props.lobbies.map(lobby => {
-      if (lobby.id === lobbyId) {
-        numPlayers = lobby.users.length;
-        return null;
-      } else {
-        return null;
-      }
-    });
-    await axios.post(`${url}/questions`, {
-      lobbyId,
-      numPlayers
-    });
-    // need to check type first
-    // this.setState({questions: action})
-  }
+  // async questions() {
+  //   const questions = await axios.get(`${url}/questions`);
+  //   // need to check type first
+  //   this.setState({ questions: questions.data });
+  //   // this.setState({questions: action})
+  // }
 
   handleClick = option => {
     this.state.questions.map(question => {

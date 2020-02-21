@@ -1,12 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
+const axios = require("axios");
 class GameRoom extends React.Component {
   componentDidMount() {
     // console.log("Stage 1", this.props.match.params);
     // console.log("Now let's fetch this post:", post_id);
     // this.props.dispatch(fetchPost(post_id));
+    // console.log("props", this.props);
+  }
+
+  async setReady(userId) {
+    // console.log(userId);
+    const ready = await axios.put(`http://localhost:4000/user/${userId}`, {
+      ready: true
+    });
   }
   render() {
     // console.log("params match", this.props.match.params.id);
@@ -50,7 +58,12 @@ class GameRoom extends React.Component {
                   // console.log(lobby);
                   if (lobby.users.length >= 2 && lobby.users.length < 4) {
                     return (
-                      <Link to={`/game/${lobby.id}`}>
+                      <Link
+                        to={`/game/${lobby.id}`}
+                        onClick={() => {
+                          this.setReady(this.props.user.currentUserId);
+                        }}
+                      >
                         <button>Start Game</button>
                       </Link>
                     );
@@ -70,9 +83,11 @@ class GameRoom extends React.Component {
 }
 
 function mapStateToProps(reduxState) {
-  // console.log(reduxState);
+  console.log("state", reduxState.lobby[0].users[0].ready);
+  console.log("state", reduxState.lobby[0].users[1].ready);
   return {
-    lobbies: reduxState.lobby
+    lobbies: reduxState.lobby,
+    user: reduxState.user
   };
 }
 
