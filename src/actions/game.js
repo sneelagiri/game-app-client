@@ -1,22 +1,21 @@
-// import axios from "axios";
+import axios from "axios";
 
-// const databaseUrl = "http://localhost:4000";
+const databaseUrl = "http://localhost:4000";
 
-// async questions() {
-//     const lobbyId = parseInt(this.props.match.params.id);
-//     let numPlayers = 0;
-//     this.props.lobbies.map(lobby => {
-//       if (lobby.id === lobbyId) {
-//         numPlayers = lobby.users.length;
-//         return null;
-//       } else {
-//         return null;
-//       }
-//     });
-//     await axios.post(`${url}/questions`, {
-//       lobbyId,
-//       numPlayers
-//     });
-//     // need to check type first
-//     // this.setState({questions: action})
-//   }
+export async function updatePoints(points, userId, lobbyId) {
+  console.log(points, userId, lobbyId);
+  const response = await axios.post(`${databaseUrl}/userResponse`, {
+    points,
+    lobbyId
+  });
+  // console.log("DID I GET A RESPONSE?", response);
+  if (response) {
+    const secondResponse = await axios.put(`${databaseUrl}/user/${userId}`, {
+      usersResponseId: response.data.id
+    });
+    if (secondResponse) {
+      const thirdResponse = await axios.get(`${databaseUrl}/points`);
+      console.log(thirdResponse);
+    }
+  }
+}

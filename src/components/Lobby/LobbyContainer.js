@@ -68,7 +68,13 @@ class LobbyContainer extends React.Component {
         <br />
 
         {this.props.lobbies.map(lobby => {
-          return <DisplayLobby lobbyData={lobby} userId={this.props.userId} />;
+          return (
+            <DisplayLobby
+              lobbyData={lobby}
+              userId={this.props.userId}
+              key={lobby.id}
+            />
+          );
         })}
       </div>
     );

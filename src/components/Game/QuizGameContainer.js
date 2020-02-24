@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { fetchLobbies } from "../../actions/lobby";
+
 import Fade from "react-reveal/Fade";
 import GameRoom from "../GameRoom";
-const axios = require("axios");
+import { updatePoints } from "../../actions/game";
+const uuidv4 = require("uuid/v4");
 const url = "http://localhost:4000";
 
 class QuizGameContainer extends Component {
@@ -10,10 +13,13 @@ class QuizGameContainer extends Component {
     username: "",
     lobbies: [],
     points: 0,
+    pointsData: [],
     questions: [],
     answeredCorrectly: [],
     currentQuestion: 0,
-    gameover: false
+    gameover: false,
+    scoreboard: false,
+    gameOn: true
   };
   stream = new EventSource(`${url}/stream`);
 
@@ -24,35 +30,24 @@ class QuizGameContainer extends Component {
       // console.log("What is the action?", action);
       const { type, payload } = action;
 
-      // const readyStatus = () => {
-      //   if (type === "ALL_LOBBIES") {
-      //     const readyStatus = payload.map(lobby => {
-      //       return lobby.users.map(user => {
-      //         if (user.ready) {
-      //           return true;
-      //         } else return false;
-      //       });
-      //     });
-      //     return readyStatus;
-      //   }
-      // };
-      // const booleanArray = readyStatus().flat();
-      // const getQuestions = booleanArray.every(v => v === true);
-      // if (getQuestions) {
-      //   console.log("HOW MANY TIMES AM I BEING CALLED?");
-      //   this.questions();
-      // } else {
-      //   return console.log("Didn't work");
-      // }
+      if (type === "FETCH_QUESTIONS") {
+        this.setState({ questions: payload.questions });
+        this.lobbiesGlobal(payload.lobbies);
+      }
+      if (type === "POINTS") {
+        console.log("THIS IS THE POINTS PAYLOAD", payload);
+        this.setState({
+          pointsData: payload,
+          scoreboard: true
+        });
+      }
+      // console.log(this.state.questions);
     };
   }
 
-  // async questions() {
-  //   const questions = await axios.get(`${url}/questions`);
-  //   // need to check type first
-  //   this.setState({ questions: questions.data });
-  //   // this.setState({questions: action})
-  // }
+  lobbiesGlobal = array => {
+    this.props.dispatch(fetchLobbies(array));
+  };
 
   handleClick = option => {
     this.state.questions.map(question => {
@@ -66,6 +61,10 @@ class QuizGameContainer extends Component {
     if (this.state.currentQuestion < 9) {
       this.setState({ currentQuestion: this.state.currentQuestion + 1 });
     } else {
+      const points = this.state.points;
+      const userId = this.props.user.currentUserId;
+      const lobbyId = this.props.match.params.id;
+      updatePoints(points, userId, lobbyId);
       this.setState({ gameover: !this.state.gameover, currentQuestion: 0 });
     }
   };
@@ -77,16 +76,28 @@ class QuizGameContainer extends Component {
       <div>
         {notLoading ? (
           <Fade>
-            {this.state.gameover ? (
+            {this.state.gameover && this.props.pointsData ? (
+              <div>
+                {this.state.pointsData.map(player => {
+                  return (
+                    <h2>
+                      Player Name: {player.playerName} | Points:{" "}
+                      {player.userResponse.points}
+                    </h2>
+                  );
+                })}
+              </div>
+            ) : this.state.gameover ? (
               "Waiting for other players"
             ) : (
               <div>
                 <h2>{this.state.questions[currQ].question}</h2>
                 {this.state.questions[currQ].options.map(option => {
                   return (
-                    <div>
+                    <div key={uuidv4()}>
                       <br></br>
                       <button
+                        key={uuidv4()}
                         name="option"
                         value={option}
                         onClick={() => {
@@ -102,6 +113,7 @@ class QuizGameContainer extends Component {
                 <h3>Points: {this.state.points}</h3>
               </div>
             )}
+            )
           </Fade>
         ) : (
           "Loading..."
@@ -114,7 +126,8 @@ class QuizGameContainer extends Component {
 function mapStateToProps(reduxState) {
   // console.log("What is the redux state", reduxState);
   return {
-    lobbies: reduxState.lobby
+    lobbies: reduxState.lobby,
+    user: reduxState.user
   };
 }
 

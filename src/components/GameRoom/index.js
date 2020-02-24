@@ -12,7 +12,7 @@ class GameRoom extends React.Component {
 
   async setReady(userId) {
     // console.log(userId);
-    const ready = await axios.put(`http://localhost:4000/user/${userId}`, {
+    await axios.put(`http://localhost:4000/user/${userId}`, {
       ready: true
     });
   }
@@ -59,6 +59,7 @@ class GameRoom extends React.Component {
                   if (lobby.users.length >= 2 && lobby.users.length < 4) {
                     return (
                       <Link
+                        key={lobby.id}
                         to={`/game/${lobby.id}`}
                         onClick={() => {
                           this.setReady(this.props.user.currentUserId);
@@ -83,8 +84,9 @@ class GameRoom extends React.Component {
 }
 
 function mapStateToProps(reduxState) {
-  console.log("state", reduxState.lobby[0].users[0].ready);
-  console.log("state", reduxState.lobby[0].users[1].ready);
+  console.log("WHAT DOES THE STATE LOOK LIKE?", reduxState);
+  // console.log("state", reduxState.lobby[0].users[0].ready);
+  // console.log("state", reduxState.lobby[0].users[1].ready);
   return {
     lobbies: reduxState.lobby,
     user: reduxState.user
